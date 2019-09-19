@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  I AM WWW
+  <iframe src="http://localhost:8000"></iframe>
+
+  <script>
+    window.onmessage = function(e) {
+      if (e.origin !== 'http://localhost:8000') {
+        return;
+      }
+
+      var payload = JSON.parse(e.data);
+      console.log('www: get response from userhome', payload);
+    }
+
+    window.onload = function() {
+      var win = document.getElementsByTagName('iframe')[0].contentWindow;
+
+      win.postMessage(JSON.stringify({ key: 'request-token', data: { name: "Jack" } }), "*");
+    }
+  </script>
+</body>
+</html>
